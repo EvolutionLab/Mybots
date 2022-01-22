@@ -7,3 +7,5 @@ Apple
 All of these are my favorite
 
 I bought a history book.
+
+But I don't know how to merge to master's file
