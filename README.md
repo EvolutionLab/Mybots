@@ -1,2 +1,0 @@
-# Mybots
-for evolutionary robots
