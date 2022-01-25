@@ -6,7 +6,7 @@ import pybullet as p
 import time
 physicsClient = p.connect(p.GUI)
 #打开或关闭GUI控件，“0”等于关闭
-p.configureDebugVisualizer(p.COV_ENABLE_GUI, 1)
+p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
 
 #该语句的作用是禁用tinyrenderer，也就是不让CPU上的集成显卡来参与渲染工作
 p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 0)
@@ -28,18 +28,17 @@ planeId = p.loadURDF("plane100.urdf")
 robotId = p.loadURDF("body.urdf")
 p.loadSDF("world.sdf")
 
-p.setRealTimeSimulation(1)
-while True:
-    pass
+# p.setRealTimeSimulation(1)
+# while True:
+#     pass
 
 # 开始一千次迭代，也就是一千次交互，每次交互后停顿1/240
 # 注释代码和取消注释代码的快捷键都一样
 # ctrl + /
 
-# for i in range(1000):
-#     p.stepSimulation()
-#     time.sleep(1 / 240)
-
+for i in range(1000):
+    p.setRealTimeSimulation(1)
+    time.sleep(1/240)
 
 
 p.disconnect()
