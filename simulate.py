@@ -5,6 +5,13 @@ import pybullet_data
 import pybullet as p
 import time
 physicsClient = p.connect(p.GUI)
+#打开或关闭GUI控件，“0”等于关闭
+p.configureDebugVisualizer(p.COV_ENABLE_GUI, 1)
+
+#该语句的作用是禁用tinyrenderer，也就是不让CPU上的集成显卡来参与渲染工作
+p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 0)
+
+
 
 p.setGravity(0,0,-9.8)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
