@@ -12,17 +12,28 @@ p.configureDebugVisualizer(p.COV_ENABLE_GUI, 1)
 p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 0)
 
 
-
-p.setGravity(0,0,-9.8)
+#设置重力，当设置成+10的时候，物体会飘走
+#设置重力，当设置成-10的时候，物体会落在地上
+p.setGravity(0,0,-10)
+#添加资源路径
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
+#加载URDF模型，此处是加载蓝白相间的陆地
 planeId = p.loadURDF("plane.urdf")
-#p.loadSDF("box.sdf")
 p.loadSDF("world.sdf")
 
-for i in range(1000):
-    p.stepSimulation()
-    time.sleep(1/60)
+p.setRealTimeSimulation(1)
+while True:
+    pass
+
+# 开始一千次迭代，也就是一千次交互，每次交互后停顿1/240
+# 注释代码和取消注释代码的快捷键都一样
+# ctrl + /
+
+# for i in range(1000):
+#     p.stepSimulation()
+#     time.sleep(1 / 240)
+
 
 
 p.disconnect()
