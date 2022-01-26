@@ -4,6 +4,10 @@
 import pybullet_data
 import pybullet as p
 import time
+import numpy
+import pyrosim.pyrosim as pyrosim
+
+
 physicsClient = p.connect(p.GUI)
 #打开或关闭GUI控件，“0”等于关闭
 p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
@@ -26,7 +30,7 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 #改变环境的路径C:\Users\win10\anaconda3\Lib\site-packages\pybullet_data
 planeId = p.loadURDF("plane100.urdf")
 robotId = p.loadURDF("body.urdf")
-p.loadSDF("world.sdf")
+# p.loadSDF("world.sdf")
 
 # p.setRealTimeSimulation(1)
 # while True:
@@ -36,9 +40,20 @@ p.loadSDF("world.sdf")
 # 注释代码和取消注释代码的快捷键都一样
 # ctrl + /
 
+pyrosim.Prepare_To_Simulate(robotId)
+backLegSensorValues = numpy.zeros(1000)
 for i in range(1000):
+    # p.stepSimulation()
     p.setRealTimeSimulation(1)
+    # backLegSensorValues = numpy.zeros(1000)
+    backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    # backLegSensorValues = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    print(backLegSensorValues)
     time.sleep(1/240)
+
+
+numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
+
 
 
 p.disconnect()
