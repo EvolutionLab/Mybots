@@ -26,10 +26,13 @@ p.setGravity(0,0,-10)
 #添加资源路径
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
+
 #加载URDF模型，此处是加载蓝白相间的陆地
 #改变环境的路径C:\Users\win10\anaconda3\Lib\site-packages\pybullet_data
 planeId = p.loadURDF("plane100.urdf")
-robotId = p.loadURDF("body.urdf")
+
+#读取一个叫“body”的机器人
+robot = p.loadURDF("body.urdf")
 # p.loadSDF("world.sdf")
 
 # p.setRealTimeSimulation(1)
@@ -40,7 +43,9 @@ robotId = p.loadURDF("body.urdf")
 # 注释代码和取消注释代码的快捷键都一样
 # ctrl + /
 
-pyrosim.Prepare_To_Simulate(robotId)
+
+
+pyrosim.Prepare_To_Simulate(robot)
 backLegSensorValues = numpy.zeros(1000)
 frontLegSensorValues = numpy.zeros(1000)
 
@@ -50,14 +55,16 @@ for i in range(1000):
     p.setRealTimeSimulation(1)
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
     frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
-    # backLegSensorValues = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
+    numpy.save("data/frontLegSensorValues.npy", frontLegSensorValues)
+    pyrosim.Set_Motor_For_Joint(
+        bodyIndex=robot,
+        jointName="BackLeg_Torso",
+        controlMode=p.POSITION_CONTROL,
+        targetPosition=0.0,
+        maxForce=500)
     #print(backLegSensorValues)
     time.sleep(1/240)
-
-
-numpy.save("data/backLegSensorValues.npy", backLegSensorValues)
-numpy.save("data/frontLegSensorValues.npy", frontLegSensorValues)
-
 
 
 p.disconnect()
